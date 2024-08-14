@@ -25,8 +25,8 @@ const User = sequelize.define('user', {
 });
 
 (async () => {
-  await sequelize.sync({ force: true });
-  console.log("Successfully created Freelancers Table");
+  await sequelize.sync();
+  console.log("Successfully created Freelancer Table");
 })();
 
 export default User;

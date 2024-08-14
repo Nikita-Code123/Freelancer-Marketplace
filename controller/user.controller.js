@@ -1,29 +1,52 @@
+import e from "express";
 import User from "../model/user.model.js";
 
 
-export const signup=async(req,res,next)=>{
-    req.body.username=username;
-    req.body.email=email;
-    req.body.password=password;
-   const result= await User.create(username,email,password);
-   result ?  res.status(200).json("message" , " Successfully registered") 
-   : res.status(401).json("message","Something Went Wrong");
-
-}
 
 
 
-export const signin =async(req,res,next)=>{
-   req.body.email=email;
-   req.body.password=password;
-const checkemail=   await User.findOne(email);
-if(checkemail){
-  const checkpass=  await User.findOne(password);
-  if(checkpass){
-    res.status(200).json("message","Successfully login.....")
+
+export const signup = async (req, res, next) => {
+
+  console.log(req.body);
+  let { username, email, password } = req.body;
+  console.log(username)
+  try {
+    const result = await User.create({ username, email, password });
+
+    if (result) {
+      console.log(result)
+      res.status(200).json({ message: "Successfully registered" });
+    } else {
+      res.status(400).json({ message: "Registration failed" });
+    }
+  } catch (err) {
+
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
   }
-  else {
-    res.status(401).json("error","Try ! Again");
+};
+
+export const signin = async (req, res, next) => {
+  try {
+    let { email, password } = req.body;
+    const checkemail = await User.findOne({where : {email}});
+    if (checkemail) {
+      const checkpass = await User.findOne({where :{password}});
+      if (checkpass) {
+        res.status(200).json({message : " Successfully Login"})
+      }
+      else {
+        res.status(401).json({error : "Password Incorrect"});
+      }
+    }
+    else{
+      
+      res.status(404).json({error : "User not Found"});
+    }
   }
-}
+  catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Internal Server Problem" })
+  }
 }

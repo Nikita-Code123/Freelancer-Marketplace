@@ -24,7 +24,7 @@ const Employee =sequelize.define("employee",{
 });
 
 (async ()=>{
-    await sequelize.sync({force : true})
+    await sequelize.sync()
     {
         console.log ("Success Created Employee Table")
     }
