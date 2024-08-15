@@ -2,16 +2,16 @@ import e from "express";
 import User from "../model/user.model.js";
 
 
-
-
-
-
 export const signup = async (req, res, next) => {
+  try {
+    const errors =  validationResult(request);
+    if(!errors.isEmpty())
+      return response.status(401).json({error: "Bad request"});
 
   console.log(req.body);
   let { username, email, password } = req.body;
   console.log(username)
-  try {
+ 
     const result = await User.create({ username, email, password });
 
     if (result) {
@@ -30,15 +30,9 @@ export const signup = async (req, res, next) => {
 export const signin = async (req, res, next) => {
   try {
     let { email, password } = req.body;
-    const checkemail = await User.findOne({where : {email}});
+    const checkemail = await User.findOne({where : {email},raw:true});
     if (checkemail) {
-      const checkpass = await User.findOne({where :{password}});
-      if (checkpass) {
-        res.status(200).json({message : " Successfully Login"})
-      }
-      else {
-        res.status(401).json({error : "Password Incorrect"});
-      }
+      return User.checkPassword(password,user.password) ? response.status(200).json({message: 'sign in success',user}):response.status(401).json({error: "Bad request | Invalid password"});
     }
     else{
       

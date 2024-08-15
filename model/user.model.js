@@ -19,8 +19,13 @@ const User = sequelize.define('user', {
     unique : true 
   },
   password: {
-    type: DataTypes.INTEGER, 
-    allowNull : false 
+    type: DataTypes.STRING,
+    allowNull: false,
+    set(v){
+      let saltKey = bcrypt.genSaltSync(12);
+      let encryptedPassword = bcrypt.hashSync(v,saltKey);
+      this.setDataValue("password",encryptedPassword);
+    }
   }
 });
 
@@ -28,5 +33,10 @@ const User = sequelize.define('user', {
   await sequelize.sync();
   console.log("Successfully created Freelancer Table");
 })();
-
+User.checkPassword = (password,encryptedPassword)=>{
+  let status = bcrypt.compareSync(password,encryptedPassword);
+  console.log(password,encryptedPassword);
+  console.log(status);
+  return status;
+}
 export default User;
