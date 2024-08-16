@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-
+import bcrypt from "bcrypt";
 import sequelize from "../db/dbconnection.js";
 const Employee =sequelize.define("employee",{
     id :{
@@ -18,15 +18,27 @@ const Employee =sequelize.define("employee",{
         unique : true,
     },
     password :{
-        type : DataTypes.INTEGER,
-        allowNull : false
+        type: DataTypes.STRING,
+        allowNull: false,
+        set(password){
+          let saltKey = bcrypt.genSaltSync(12);
+          let encryptedPassword = bcrypt.hashSync(password,saltKey);
+          this.setDataValue("password",encryptedPassword);
+        }
     }
 });
 
 (async ()=>{
     await sequelize.sync()
     {
-        console.log ("Success Created Employee Table")
+        console.log ("Successfully Created Employee Table")
     }
 })();
+
+Employee.checkPassword = (password,encryptedPassword)=>{
+    let status = bcrypt.compareSync(password,encryptedPassword);
+    console.log(password,encryptedPassword);
+    console.log(status);
+    return status;
+  }
 export default Employee;

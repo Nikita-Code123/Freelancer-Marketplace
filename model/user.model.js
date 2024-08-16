@@ -1,4 +1,5 @@
 import { Sequelize ,DataTypes} from "sequelize";
+import bcrypt from "bcryptjs";
 
 import sequelize from "../db/dbconnection.js";
 

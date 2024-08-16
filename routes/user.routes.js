@@ -1,5 +1,6 @@
 import express from "express";
 import { signin,signup} from "../controller/user.controller.js";
+import { proposal } from "../controller/proposal.controller.js";
 import { body } from "express-validator";
 const router= express.Router();
 // router.use();
@@ -16,6 +17,8 @@ router.post("/Registration",
     body("email","email id is required").notEmpty(),
     body("password","password is required").notEmpty(),
     body("password","password must contain at least 4 letter").isLength({min: 4}),signup);
+
+router.post("/projectProposal",proposal);
 
 export default router;
 

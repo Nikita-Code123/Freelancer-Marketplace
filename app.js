@@ -8,6 +8,7 @@ app.use(bodyParser.json());
 
 app.use("/FreelancerMarketplace/Freelancer",userrouter);
 app.use("/FreelancerMarketplace/Employee",employeerouter)
+
 app.use(express.json());
 
 app.listen(8000,()=>{

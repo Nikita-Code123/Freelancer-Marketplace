@@ -1,17 +1,18 @@
-import e from "express";
-import User from "../model/user.model.js";
 
+import bcrypt from "bcryptjs";
+import User from "../model/user.model.js";
+import { validationResult } from "express-validator";
 
 export const signup = async (req, res, next) => {
   try {
-    const errors =  validationResult(request);
-    if(!errors.isEmpty())
-      return response.status(401).json({error: "Bad request"});
+    const errors = validationResult(req);
+    if (!errors.isEmpty())
+      return res.status(401).json({ error: "Bad request" ,errors});
 
-  console.log(req.body);
-  let { username, email, password } = req.body;
-  console.log(username)
- 
+    console.log(req.body);
+    let { username, email, password } = req.body;
+    console.log(username)
+
     const result = await User.create({ username, email, password });
 
     if (result) {
@@ -29,18 +30,23 @@ export const signup = async (req, res, next) => {
 
 export const signin = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty())
+      return res.status(401).json({ error: "Bad request",errors });
+
     let { email, password } = req.body;
-    const checkemail = await User.findOne({where : {email},raw:true});
+    const checkemail = await User.findOne({ where: { email }, raw: true });
     if (checkemail) {
-      return User.checkPassword(password,user.password) ? response.status(200).json({message: 'sign in success',user}):response.status(401).json({error: "Bad request | Invalid password"});
+      return User.checkPassword(password, checkemail.password) ? res.status(200).json({ message: 'sign in success', User })
+        : res.status(401).json({ error: "Bad request | Invalid password" });
     }
-    else{
-      
-      res.status(404).json({error : "User not Found"});
+    else {
+
+      res.status(404).json({ error: "User not Found" });
     }
   }
   catch (err) {
     console.log(err);
-    res.status(500).json({ error: "Internal Server Problem" })
+    res.status(500).json({ error: "Something Went Wrong ! Try Again" })
   }
 }

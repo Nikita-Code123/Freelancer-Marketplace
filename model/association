@@ -16,7 +16,108 @@
 // User.hasOne(Cart); // foreignKey(userId)
 // Cart.belongsTo(User);// references User(id)
 
-// Cart.belongsToMany(Product,{through: CartItems});
+// Cart.belongsToMany(Product,{through: CartItems}); 
 // Product.belongsToMany(Cart,{through: CartItems});
 
 // export {Product,Reviews,Category,CartItems,Cart};
+
+
+import User from "./user.model.js";
+
+import Project from "./project.model.js";
+import Employee from "./employee.model.js";
+
+Project.hasOne(User)
+User.belongsTo(Project)
+
+Project.hasOne(Employee)
+Employee.belongsTo(Project)
+
+User.hasMany(Project);
+Project.belongsTo(User)
+
+Employee.hasMany(Project)
+Project.belongsTo(Employee)
+
+
+/*Expected Output:
+
+User Registration:
+
+Users should be able to register as either freelancers or employers using their email address, name, and password.
+
+Successful registration should create a user profile with the appropriate role and access rights.
+
+Login:
+
+Users should be able to log in using their registered email and password.
+
+Successful login should authenticate the user and provide access to the marketplace features.
+
+Job Posting:
+
+Employers should be able to post new job listings with details such as job title, description, required skills, budget, and deadline.
+
+Job postings should be visible to freelancers and searchable/filterable based on criteria.
+
+Proposal Submission:
+
+Freelancers should be able to submit proposals for job postings, including a cover letter, proposed budget, and estimated timeline.
+
+Employers should be able to view, review, and respond to proposals.
+
+Payments:
+
+The system should facilitate secure payments from employers to freelancers upon job completion.
+
+Users should be able to manage their payment methods and view transaction history.
+
+Ratings:
+
+After job completion, both freelancers and employers should be able to rate and leave feedback for each other.
+
+Ratings and reviews should be visible on user profiles to help build credibility.
+
+Suggested Technology:
+
+User Registration & Login:
+
+Frontend: React or Angular
+
+Backend: Node.js, Express, Django, or Flask
+
+Database: MongoDB, PostgreSQL, or MySQL
+
+Job Posting:
+
+Frontend: JavaScript frameworks/libraries (React, Angular) for job posting forms and display
+
+Backend: RESTful APIs or GraphQL for handling job postings
+
+Database: MongoDB, PostgreSQL, or MySQL for storing job listings
+
+Proposal Submission:
+
+Frontend: Interface for proposal submission and management
+
+Backend: Logic for handling proposal submissions and employer responses
+
+Database: Schema for storing proposals and job details
+
+Payments:
+
+Frontend: Integration with payment gateways (e.g., Stripe, PayPal) for secure transactions
+
+Backend: Payment processing and transaction management
+
+Database: Storing payment information and transaction history
+
+Ratings:
+
+Frontend: Interface for submitting and viewing ratings and reviews
+
+Backend: Logic for managing ratings, reviews, and user profiles
+
+Database: Schema for storing ratings and feedback
+
+This use case will provide trainees with practical experience in building a freelance marketplace platform, covering essential functionalities such as user management, job posting, proposal handling, payment processing, and feedback systems.*/ 
