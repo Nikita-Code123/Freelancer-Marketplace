@@ -1,35 +1,48 @@
 import sequelize from "../db/dbconnection.js";
 import { DataTypes } from "sequelize";
-const Proposal =sequelize.define("proposals",{
-    id : {
-        type : DataTypes.INTEGER,
-        primaryKey : true,
-        autoIncrement : true,
-        allowNull : false
+
+const Proposal = sequelize.define("proposals", {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false
     },
-    user : {
-        type : DataTypes.INTEGER,
-        references : true,
+    freelancerId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: 'users',
+            key: 'id'
+        },
+        allowNull: false
     },
-    cover_letter : {
-        type : DataTypes.BLOB,
-        allowNull : false
+    projectId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: 'projects',
+            key: 'id'
+        },
+        allowNull: false
     },
-    proposed_budget :{
-        type : DataTypes.INTEGER,
-        allowNull : false 
+    employeeId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: 'employee',
+            key: 'id'
+        },
+        },
+    coverLetter: {
+        type: DataTypes.TEXT,
+        allowNull: false
     },
-    estimated_timeline :{
-        type : DataTypes.DATE,
-        allowNull : false 
+    proposedBudget: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    estimatedTimeline: {
+        type: DataTypes.DATE,
+        allowNull: false
     }
-})
-
-
-Proposal.sync().then(()=>{
-    console.log("Succssfully Proposals Table created");
-}).catch(
-    console.log("Try Again")
-)
+});
 
 export default Proposal;

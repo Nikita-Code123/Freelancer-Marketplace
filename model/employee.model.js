@@ -13,27 +13,25 @@ const Employee =sequelize.define("employee",{
         allowNull : false ,
     },
     email :{
-        type : DataTypes.STRING,
-        allowNull : false ,
-        unique : true,
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+            isEmail: true // Validate email format
+        }
     },
     password :{
         type: DataTypes.STRING,
         allowNull: false,
-        set(password){
-          let saltKey = bcrypt.genSaltSync(12);
-          let encryptedPassword = bcrypt.hashSync(password,saltKey);
-          this.setDataValue("password",encryptedPassword);
+        set(value) {
+            const salt = bcrypt.genSaltSync(12);
+            const hashedPassword = bcrypt.hashSync(value, salt);
+            this.setDataValue('password', hashedPassword);
         }
     }
 });
 
-(async ()=>{
-    await sequelize.sync()
-    {
-        console.log ("Successfully Created Employee Table")
-    }
-})();
+
 
 Employee.checkPassword = (password,encryptedPassword)=>{
     let status = bcrypt.compareSync(password,encryptedPassword);
