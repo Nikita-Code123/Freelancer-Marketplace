@@ -1,0 +1,28 @@
+
+body {
+  background-color: #adb4a8;
+}
+
+.card {
+
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.card-title {
+  font-weight: bold;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #004085;
+}
+/* cad2c5
+84a98c
+52796f
+354f52
+2f3e46 */
